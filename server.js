@@ -21,8 +21,9 @@ const app = express();
 
 // Define allowed origins
 const allowedOrigins = [
-  'http://localhost',
-  'http://localhost:56669'
+  'http://localhost/3000',
+  'http://localhost:56669',
+  'http://localhost:58147'
 ];
 
 // CORS setup
