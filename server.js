@@ -21,10 +21,7 @@ const app = express();
 
 // Define allowed origins
 const allowedOrigins = [
-  'https://eatseasy-partner.web.app',
-  'https://eatseasyfoods.web.app',
-  'https://partner.eatseasy.online',
-  'https://foods.eatseasy.online',
+  'http://localhost',
   'http://localhost:56669'
 ];
 
