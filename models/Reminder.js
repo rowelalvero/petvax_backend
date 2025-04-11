@@ -1,4 +1,3 @@
-// models/Reminder.js
 const mongoose = require('mongoose');
 
 const reminderSchema = new mongoose.Schema({
@@ -29,5 +28,4 @@ const reminderSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Reminder = mongoose.model('Reminder', reminderSchema);
-module.exports = Reminder;
+module.exports = mongoose.model('Reminder', reminderSchema);

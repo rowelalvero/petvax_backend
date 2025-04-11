@@ -1,7 +1,7 @@
 const schedule = require('node-schedule');
 const Pet = require('../models/Pet');
 const Appointment = require('../models/Appointment');
-const Reminder = require('../models/Reminder');
+const Reminder = require('../models/Reminder.js');
 const User = require('../models/User');
 const { sendEmail, generateReminderContent } = require('./notificationService');
 
