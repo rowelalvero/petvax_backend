@@ -25,7 +25,7 @@ const allowedOrigins = [
   'https://eatseasyfoods.web.app',
   'https://partner.eatseasy.online',
   'https://foods.eatseasy.online',
-  'http://localhost:56669/'
+  'http://localhost:56669'
 ];
 
 // CORS setup
