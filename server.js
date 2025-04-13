@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 // Route imports
 const authRoute = require("./routes/auth");
 const symptomRoutes = require('./routes/symptomRoutes');
+const clinicRoute = require("./routes/clinicRoutes");
 
 dotenv.config();
 //fireBaseConnection();
@@ -49,7 +50,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes setup
 app.use("/", authRoute);
-app.use('/api/v1/symptoms', symptomRoutes);
+app.use('/api/symptoms', symptomRoutes);
+app.use("/api/clinics", clinicRoute);
 
 // After mongoose connection
 require('./services/reminderScheduler');
