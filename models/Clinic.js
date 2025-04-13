@@ -22,7 +22,7 @@ const clinicSchema = new mongoose.Schema({
     },
     coordinates: {
       type: [Number], // [longitude, latitude]
-      //required: true,
+      required: true,
       validate: {
         validator: function(coords) {
           return coords.length === 2 && 
