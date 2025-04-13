@@ -51,7 +51,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes setup
 app.use("/", authRoute);
 app.use('/api/symptoms', symptomRoutes);
-app.use("/api/clinics", clinicRoute);
+app.use("/api/clinic", clinicRoute);
 
 // After mongoose connection
 require('./services/reminderScheduler');

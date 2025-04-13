@@ -25,11 +25,11 @@ router.post(
 router.use(authController.protect);
 
 // Admin-only routes
-router.post('/clinics', authController.restrictTo('admin'), clinicController.createClinic);
-router.delete('/clinics/:id', authController.restrictTo('admin'), clinicController.deleteClinic);
+router.post('/', authController.restrictTo('admin'), clinicController.createClinic);
+router.delete('/:id', authController.restrictTo('admin'), clinicController.deleteClinic);
 
 // Admin or Clinic Owner routes
-router.patch('/clinics/:id', 
+router.patch('/:id', 
   authController.restrictTo('admin', 'clinic_owner'),
   clinicController.updateClinic
 );
