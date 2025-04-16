@@ -12,7 +12,7 @@ exports.createClinic = async (req, res, next) => {
       address, 
       longitude = req.body.location.coordinates.longitude, 
       latitude = req.body.location.coordinates.latitude, 
-      contactNumber = req.body.contactNumber.replace(/\s+/g, ''), 
+      contactNumber,
       email, 
       openingTime = req.body.operatingHours.openingTime, 
       closingTime = req.body.operatingHours.closingTime,
@@ -21,7 +21,7 @@ exports.createClinic = async (req, res, next) => {
       password = req.body.adminCredentials.password
     } = req.body;
     console.log("Clinic creation request body:", req.body);
-    console.log(contactNumber);
+    console.log(longitude, latitude);
 
     // Validate required fields
     if (!username || !password) {
