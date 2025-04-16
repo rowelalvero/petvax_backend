@@ -2,6 +2,8 @@
 const Clinic = require('../models/Clinic');
 const User = require('../models/User');
 const AppError = require('../utils/appError');
+const bcrypt = require('bcryptjs');
+const clinicMatcher = require('../utils/clinicMatcher'); // Assuming this is a utility for matching clinics based on assessment results
 
 // 1. CREATE CLINIC (Admin only)
 exports.createClinic = async (req, res, next) => {
