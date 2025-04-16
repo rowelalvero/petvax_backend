@@ -4,6 +4,7 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 //const { fireBaseConnection } = require('./utils/fbConnect');
+const app = express();
 app.options('*', cors());
 // Route imports
 const authRoute = require("./routes/auth");
@@ -18,8 +19,6 @@ dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to the database"))
   .catch((err) => console.log(err));
-
-const app = express();
 
 // Define allowed origins
 const allowedOrigins = [
