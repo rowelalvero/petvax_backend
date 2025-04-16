@@ -20,6 +20,7 @@ exports.createClinic = async (req, res, next) => {
       adminUsername,
       adminPassword
     } = req.body;
+    console.log("Clinic creation request body:", req.body);
 
     // Validate required fields
     if (!adminUsername || !adminPassword) {
