@@ -10,7 +10,7 @@ exports.createClinic = async (req, res, next) => {
     const {
       name,
       address,
-      locationCoordinates,
+      location,
       contactNumber,
       email,
       operatingHours,
@@ -18,12 +18,13 @@ exports.createClinic = async (req, res, next) => {
       adminCredentials
     } = req.body;
     
-    const { latitude, longitude } = locationCoordinates || {};
+    const { longitude, latitude } = location.coordinates || {};
     const { openingTime, closingTime } = operatingHours || {};
     const { username, password } = adminCredentials || {};
     
     console.log("Clinic creation request body:", req.body);
     console.log(longitude, latitude);
+    console.log(location.coordinates[0], location.coordinates[1]);
 
     // Hash the admin password
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -31,9 +32,9 @@ exports.createClinic = async (req, res, next) => {
     const newClinic = await Clinic.create({
       name,
       address,
-      locationCoordinates: {
+      location: {
         type: 'Point',
-        coordinates: [latitude, longitude]
+        coordinates: [location.coordinates[0], location.coordinates[1]]
       },
       contactNumber,
       email,
@@ -155,7 +156,7 @@ exports.getNearbyClinics = async (req, res, next) => {
     }
 
     const clinics = await Clinic.find({
-      locationCoordinates: {
+      location: {
         $near: {
           $geometry: {
             type: 'Point',
@@ -181,13 +182,13 @@ exports.getNearbyClinics = async (req, res, next) => {
 
 exports.findClinicsForAssessment = async (req, res, next) => {
   try {
-    const { assessmentResult, userLocationCoordinateslocationCoordinates } = req.body;
+    const { assessmentResult, userLocation } = req.body;
     
     if (!assessmentResult || !assessmentResult.urgency) {
       throw new AppError('Valid assessment data is required', 400);
     }
 
-    const clinics = await clinicMatcher.findBestClinics(assessmentResult, userLocationCoordinateslocationCoordinates);
+    const clinics = await clinicMatcher.findBestClinics(assessmentResult, userLocation);
     
     res.status(200).json({
       status: 'success',

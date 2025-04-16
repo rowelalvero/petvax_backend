@@ -14,15 +14,16 @@ const clinicSchema = new mongoose.Schema({
     required: [true, 'Address is required'],
     trim: true
   },
-  locationCoordinates: {
-    latitude: {
-      type: [Number],
-      required: true,
+  location: {
+    type: {
+      type: String,
+      default: 'Point',
+      enum: ['Point']
     },
-    longitude: {
-      type: [Number],
+    coordinates: {
+      type: [Number], // [longitude, latitude]
       required: true,
-    },
+    }
   },
   contactNumber: {
     type: String,

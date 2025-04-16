@@ -168,12 +168,12 @@ function calculateClinicScore(clinic, assessment, userLocation) {
   }
   
   // Proximity (30% if location known)
-  if (userLocation && clinic.locationCoordinates) {
+  if (userLocation && clinic.location) {
     const distance = calculateDistance(
       userLocation.latitude,
       userLocation.longitude,
-      clinic.locationCoordinates.longitude,
-      clinic.locationCoordinates.latitude
+      clinic.location.coordinates[1],
+      clinic.location.coordinates[0]
     );
     score += Math.max(0, 30 - (distance / 1000)); // Decrease by 1 point per km
   }
