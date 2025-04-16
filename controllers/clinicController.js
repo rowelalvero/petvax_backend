@@ -8,18 +8,20 @@ const bcrypt = require('bcryptjs');
 exports.createClinic = async (req, res, next) => {
   try {
     const {
-      name, 
-      address, 
-      longitude = req.body.location.longitude, 
-      latitude = req.body.location.latitude, 
+      name,
+      address,
+      location,
       contactNumber,
-      email, 
-      openingTime = req.body.operatingHours.openingTime, 
-      closingTime = req.body.operatingHours.closingTime,
+      email,
+      operatingHours,
       profileImage,
-      username = req.body.adminCredentials.username,
-      password = req.body.adminCredentials.password
+      adminCredentials
     } = req.body;
+    
+    const { longitude, latitude } = location || {};
+    const { openingTime, closingTime } = operatingHours || {};
+    const { username, password } = adminCredentials || {};
+    
     console.log("Clinic creation request body:", req.body);
     console.log(longitude, latitude);
 
