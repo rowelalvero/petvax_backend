@@ -21,6 +21,14 @@ exports.createClinic = async (req, res, next) => {
       adminPassword
     } = req.body;
 
+    // Validate required fields
+    if (!adminUsername || !adminPassword) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Admin username and password are required.'
+      });
+    }
+
     // // Validate coordinates
     // if (!longitude || !latitude || longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) {
     //   throw new AppError('Invalid coordinates. Provide valid longitude (-180 to 180) and latitude (-90 to 90).', 400);
