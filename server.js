@@ -24,7 +24,8 @@ const app = express();
 // Define allowed origins
 const allowedOrigins = [
   'https://petvax-12a65.web.app',
-  'http://localhost:57443/'
+  'http://localhost:57443/',
+  'http://localhost:57443/#/add-clinic'
 ];
 
 // CORS setup
