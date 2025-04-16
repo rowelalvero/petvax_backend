@@ -17,8 +17,8 @@ exports.createClinic = async (req, res, next) => {
       openingTime, 
       closingTime,
       profileImage,
-      username,
-      password
+      username = req.body.adminCredentials.username,
+      password = req.body.adminCredentials.password
     } = req.body;
     console.log("Clinic creation request body:", req.body);
 
