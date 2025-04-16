@@ -24,7 +24,7 @@ exports.createClinic = async (req, res, next) => {
     
     console.log("Clinic creation request body:", req.body);
     console.log(longitude, latitude);
-    console.log(location.coordinates);
+    console.log(location.coordinates[0], location.coordinates[1]);
 
     // Validate coordinates
     if (!longitude || !latitude || longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) {
