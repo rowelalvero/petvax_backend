@@ -17,13 +17,13 @@ exports.createClinic = async (req, res, next) => {
       openingTime, 
       closingTime,
       profileImage,
-      adminUsername,
-      adminPassword
+      username,
+      password
     } = req.body;
     console.log("Clinic creation request body:", req.body);
 
     // Validate required fields
-    if (!adminUsername || !adminPassword) {
+    if (!username || !password) {
       return res.status(400).json({
         status: 'fail',
         message: 'Admin username and password are required.'
@@ -36,7 +36,7 @@ exports.createClinic = async (req, res, next) => {
     // }
 
     // Hash the admin password
-    const hashedPassword = await bcrypt.hash(adminPassword, 12);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     const newClinic = await Clinic.create({
       name,
@@ -53,7 +53,7 @@ exports.createClinic = async (req, res, next) => {
       },
       profileImage,
       adminCredentials: {
-        username: adminUsername,
+        username: username,
         password: hashedPassword
       }
     });
