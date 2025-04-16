@@ -58,26 +58,6 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
   },
-  telemedicine: {
-    type: {
-      type: String,
-      enum: ['none', 'scheduled', 'completed'],
-      default: 'none'
-    },
-    meetingId: String,
-    joinUrl: String,
-    startUrl: String,
-    recordingUrl: String,
-    prescription: {
-      medication: String,
-      dosage: String,
-      instructions: String,
-      signedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-      }
-    }
-  },
   status: {
     type: String,
     enum: ['pending', 'confirmed', 'completed', 'cancelled'],

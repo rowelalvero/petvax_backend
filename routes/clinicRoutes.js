@@ -2,6 +2,7 @@
 const express = require('express');
 const clinicController = require('../controllers/clinicController');
 const authController = require('../controllers/authController');
+const { validateClinicCreation } = require('../middlewares/validateClinic');
 
 const router = express.Router();
 
@@ -25,8 +26,14 @@ router.post(
 router.use(authController.protect);
 
 // Admin-only routes
-router.post('/', authController.restrictTo('admin'), clinicController.createClinic);
-router.delete('/:id', authController.restrictTo('admin'), clinicController.deleteClinic);
+router.post(
+  '/',
+  authController.protect,
+  authController.restrictTo('admin'),
+  validateClinicCreation,
+  clinicController.createClinic
+);
+router.delete('/:id', authController.protect, authController.restrictTo('admin'), clinicController.deleteClinic);
 
 // Admin or Clinic Owner routes
 router.patch('/:id', 

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 // Route imports
 const authRoute = require("./routes/auth");
+const clinicAdminRoutes = require('./routes/clinicAdminRoutes');
 const symptomRoutes = require('./routes/symptomRoutes');
 const clinicRoute = require("./routes/clinicRoutes");
 
@@ -23,7 +24,7 @@ const app = express();
 // Define allowed origins
 const allowedOrigins = [
   'https://petvax-12a65.web.app',
-  'http://localhost:61643'
+  'http://localhost:57443'
 ];
 
 // CORS setup
@@ -49,6 +50,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes setup
 app.use("/", authRoute);
+app.use('/api/clinic-admin', clinicAdminRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use("/api/clinic", clinicRoute);
 

@@ -36,4 +36,4 @@ router.post(
     authController.restrictTo('clinic_owner', 'admin'),
     paymentController.processRefund
   );
-module.exports =router;
+module.exports = router;

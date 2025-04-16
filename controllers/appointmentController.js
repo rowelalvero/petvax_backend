@@ -3,6 +3,8 @@ const Appointment = require('../models/Appointment');
 const Clinic = require('../models/Clinic');
 const User = require('../models/User');
 const AppError = require('../utils/appError');
+const Service = require('../models/Service');
+const SymptomAssessment = require('../models/SymptomAssessment');
 const { scheduleAppointmentReminder } = require('../services/reminderScheduler');
 
 // Book Appointment (Pet Owner)

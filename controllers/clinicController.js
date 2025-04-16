@@ -6,12 +6,27 @@ const AppError = require('../utils/appError');
 // 1. CREATE CLINIC (Admin only)
 exports.createClinic = async (req, res, next) => {
   try {
-    const { name, address, longitude, latitude, contactNumber, email, openingTime, closingTime } = req.body;
+    const { 
+      name, 
+      address, 
+      longitude, 
+      latitude, 
+      contactNumber, 
+      email, 
+      openingTime, 
+      closingTime,
+      profileImage,
+      adminUsername,
+      adminPassword
+    } = req.body;
 
     // Validate coordinates
     if (!longitude || !latitude || longitude < -180 || longitude > 180 || latitude < -90 || latitude > 90) {
       throw new AppError('Invalid coordinates. Provide valid longitude (-180 to 180) and latitude (-90 to 90).', 400);
     }
+
+    // Hash the admin password
+    const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
     const newClinic = await Clinic.create({
       name,
@@ -25,6 +40,11 @@ exports.createClinic = async (req, res, next) => {
       operatingHours: {
         openingTime,
         closingTime
+      },
+      profileImage,
+      adminCredentials: {
+        username: adminUsername,
+        password: hashedPassword
       }
     });
 

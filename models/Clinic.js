@@ -82,6 +82,27 @@ const clinicSchema = new mongoose.Schema({
       _id: false
     }]
   }],
+  profileImage: {
+    type: String,
+    validate: [validator.isURL, 'Invalid logo URL format'],
+    default: 'https://example.com/default-clinic-logo.png'
+  },
+  adminCredentials: {
+    username: {
+      type: String,
+      unique: true,
+      required: [true, 'Clinic admin username is required'],
+      minlength: [4, 'Username must be at least 4 characters']
+    },
+    password: {
+      type: String,
+      select: false,
+      required: [true, 'Clinic admin password is required'],
+      minlength: [8, 'Password must be at least 8 characters']
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date
+  },
   isActive: {
     type: Boolean,
     default: true

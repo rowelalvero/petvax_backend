@@ -7,6 +7,11 @@ const router = express.Router();
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
+router.post('/clinic-admin/login', authController.clinicAdminLogin);
+
+router.post('/clinic-admin/forgot-password', authController.forgotClinicAdminPassword);
+router.patch('/reset-clinic-password/:token', authController.resetClinicAdminPassword);
+
 // Protected route (admin-only)
 router.get(
   '/admin-only',
