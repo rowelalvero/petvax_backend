@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const AppError = require('../utils/appError');
 const Clinic = require('../models/Clinic');
-const bcrypt = require('bcrypt');
 
 // Helper: Generate JWT token
 const signToken = (id, type = 'user') => {
