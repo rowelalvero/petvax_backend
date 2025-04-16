@@ -43,7 +43,7 @@ exports.createClinic = async (req, res, next) => {
       address,
       location: {
         type: 'Point',
-        coordinates: [parseFloat(longitude), parseFloat(latitude)]
+        coordinates: [longitude, latitude]
       },
       contactNumber,
       email,
