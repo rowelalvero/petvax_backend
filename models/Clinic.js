@@ -23,14 +23,6 @@ const clinicSchema = new mongoose.Schema({
     coordinates: {
       type: [Number], // [longitude, latitude]
       required: true,
-      validate: {
-        validator: function(coords) {
-          return coords.length === 2 && 
-                 coords[0] >= -180 && coords[0] <= 180 && 
-                 coords[1] >= -90 && coords[1] <= 90;
-        },
-        message: 'Invalid coordinates. Use [longitude, latitude].'
-      }
     }
   },
   contactNumber: {
