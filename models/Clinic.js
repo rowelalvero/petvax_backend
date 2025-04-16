@@ -82,13 +82,10 @@ const clinicSchema = new mongoose.Schema({
     username: {
       type: String,
       unique: true,
-      required: [true, 'Clinic admin username is required'],
-      minlength: [4, 'Username must be at least 4 characters']
     },
     password: {
       type: String,
       select: false,
-      minlength: [8, 'Password must be at least 8 characters']
     },
     passwordResetToken: String,
     passwordResetExpires: Date
