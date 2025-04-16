@@ -18,7 +18,7 @@ exports.createClinic = async (req, res, next) => {
       adminCredentials
     } = req.body;
     
-    const { longitude, latitude } = location || {};
+    const { longitude, latitude } = location.coordinates || {};
     const { openingTime, closingTime } = operatingHours || {};
     const { username, password } = adminCredentials || {};
     
