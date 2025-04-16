@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 // 1. CREATE CLINIC (Admin only)
 exports.createClinic = async (req, res, next) => {
   try {
-    const { 
+    const {
       name, 
       address, 
       longitude = req.body.location.coordinates.longitude, 
@@ -21,6 +21,7 @@ exports.createClinic = async (req, res, next) => {
       password = req.body.adminCredentials.password
     } = req.body;
     console.log("Clinic creation request body:", req.body);
+    console.log(contactNumber);
 
     // Validate required fields
     if (!username || !password) {
