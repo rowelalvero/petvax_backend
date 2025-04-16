@@ -12,7 +12,7 @@ exports.createClinic = async (req, res, next) => {
       address, 
       longitude = req.body.location.coordinates.longitude, 
       latitude = req.body.location.coordinates.latitude, 
-      contactNumber, 
+      contactNumber = req.body.contactNumber.replace(/\s+/g, ''), 
       email, 
       openingTime = req.body.operatingHours.openingTime, 
       closingTime = req.body.operatingHours.closingTime,
