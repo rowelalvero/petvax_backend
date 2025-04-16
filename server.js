@@ -4,7 +4,7 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 //const { fireBaseConnection } = require('./utils/fbConnect');
-
+app.options('*', cors());
 // Route imports
 const authRoute = require("./routes/auth");
 const clinicAdminRoutes = require('./routes/clinicAdminRoutes');
