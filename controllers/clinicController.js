@@ -14,8 +14,8 @@ exports.createClinic = async (req, res, next) => {
       latitude = req.body.location.coordinates.latitude, 
       contactNumber, 
       email, 
-      openingTime, 
-      closingTime,
+      openingTime = req.body.operatingHours.openingTime, 
+      closingTime = req.body.operatingHours.closingTime,
       profileImage,
       username = req.body.adminCredentials.username,
       password = req.body.adminCredentials.password
