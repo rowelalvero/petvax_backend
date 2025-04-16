@@ -15,6 +15,7 @@ exports.createClinic = async (req, res, next) => {
       email,
       operatingHours,
       profileImage,
+      emergencySupport,
       adminCredentials
     } = req.body;
     
@@ -42,6 +43,7 @@ exports.createClinic = async (req, res, next) => {
         openingTime,
         closingTime
       },
+      emergencySupport,
       profileImage,
       adminCredentials: {
         username: username,
