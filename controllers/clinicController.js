@@ -101,6 +101,7 @@ exports.getClinic = async (req, res, next) => {
 // 4. UPDATE CLINIC (Admin/Clinic Owner)
 exports.updateClinic = async (req, res, next) => {
   try {
+    console.log(req.user.role );
     // Check ownership (admin or clinic owner)
     if (req.user.role === 'clinic_owner') {
       const clinic = await Clinic.findById(req.params.id);
