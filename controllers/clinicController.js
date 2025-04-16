@@ -22,6 +22,13 @@ exports.createClinic = async (req, res, next) => {
     const { longitude, latitude } = location.coordinates || {};
     const { openingTime, closingTime } = operatingHours || {};
     const { username, password } = adminCredentials || {};
+
+    if (!username || !password) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Admin username and password are required.'
+      });
+    }
     
     console.log("Clinic creation request body:", req.body);
     console.log(location.coordinates[0], location.coordinates[1]);

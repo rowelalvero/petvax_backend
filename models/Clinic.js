@@ -7,7 +7,6 @@ const clinicSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Clinic name is required'],
     trim: true,
-    unique: true
   },
   address: {
     type: String,
@@ -89,7 +88,6 @@ const clinicSchema = new mongoose.Schema({
     password: {
       type: String,
       select: false,
-      required: [true, 'Clinic admin password is required'],
       minlength: [8, 'Password must be at least 8 characters']
     },
     passwordResetToken: String,
