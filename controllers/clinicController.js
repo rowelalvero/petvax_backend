@@ -24,7 +24,6 @@ exports.createClinic = async (req, res, next) => {
     const { username, password } = adminCredentials || {};
     
     console.log("Clinic creation request body:", req.body);
-    console.log(longitude, latitude);
     console.log(location.coordinates[0], location.coordinates[1]);
 
     // Hash the admin password
