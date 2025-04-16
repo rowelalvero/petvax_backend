@@ -10,7 +10,7 @@ exports.createClinic = async (req, res, next) => {
     const {
       name,
       address,
-      location,
+      locationCoordinates,
       contactNumber,
       email,
       operatingHours,
@@ -18,23 +18,22 @@ exports.createClinic = async (req, res, next) => {
       adminCredentials
     } = req.body;
     
-    const { longitude, latitude } = location.coordinates || {};
+    const { latitude, longitude } = locationCoordinates || {};
     const { openingTime, closingTime } = operatingHours || {};
     const { username, password } = adminCredentials || {};
     
     console.log("Clinic creation request body:", req.body);
     console.log(longitude, latitude);
-    console.log(location.coordinates[0], location.coordinates[1]);
-    
+
     // Hash the admin password
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const newClinic = await Clinic.create({
       name,
       address,
-      location: {
+      locationCoordinates: {
         type: 'Point',
-        coordinates: [location.coordinates[0], location.coordinates[1]]
+        coordinates: [latitude, longitude]
       },
       contactNumber,
       email,
@@ -156,7 +155,7 @@ exports.getNearbyClinics = async (req, res, next) => {
     }
 
     const clinics = await Clinic.find({
-      location: {
+      locationCoordinates: {
         $near: {
           $geometry: {
             type: 'Point',
@@ -182,13 +181,13 @@ exports.getNearbyClinics = async (req, res, next) => {
 
 exports.findClinicsForAssessment = async (req, res, next) => {
   try {
-    const { assessmentResult, userLocation } = req.body;
+    const { assessmentResult, userLocationCoordinateslocationCoordinates } = req.body;
     
     if (!assessmentResult || !assessmentResult.urgency) {
       throw new AppError('Valid assessment data is required', 400);
     }
 
-    const clinics = await clinicMatcher.findBestClinics(assessmentResult, userLocation);
+    const clinics = await clinicMatcher.findBestClinics(assessmentResult, userLocationCoordinateslocationCoordinates);
     
     res.status(200).json({
       status: 'success',
