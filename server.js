@@ -12,25 +12,27 @@ fireBaseConnection();
 
 // Define allowed origins
 const allowedOrigins = [
-  'https://petvax-12a65.web.app',
-  'http://localhost:57443',
+  'https://petvax-12a65.web.app', // production
 ];
 
-// CORS middleware setup (MOVE THIS TO TOP)
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests from localhost in development
+    const isLocalhost = origin && origin.startsWith('http://localhost');
+
+    if (!origin || allowedOrigins.includes(origin) || isLocalhost) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 // Allow preflight OPTIONS requests
-app.options('*', cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
