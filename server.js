@@ -3,7 +3,7 @@ const cors = require('cors');
 const compression = require('compression');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-//const { fireBaseConnection } = require('./utils/fbConnect');
+const { fireBaseConnection } = require('./utils/fbConnect');
 const app = express();
 app.options('*', cors());
 // Route imports
@@ -11,9 +11,10 @@ const authRoute = require("./routes/auth");
 const clinicAdminRoutes = require('./routes/clinicAdminRoutes');
 const symptomRoutes = require('./routes/symptomRoutes');
 const clinicRoute = require("./routes/clinicRoutes");
+const mapsRoute = require("./routes/mapsRoutes");
 
 dotenv.config();
-//fireBaseConnection();
+fireBaseConnection();
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URL)
@@ -53,6 +54,7 @@ app.use("/", authRoute);
 app.use('/api/clinic-admin', clinicAdminRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use("/api/clinic", clinicRoute);
+app.use("/api/maps", mapsRoute);
 
 // After mongoose connection
 require('./services/reminderScheduler');
