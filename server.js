@@ -4,34 +4,21 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const { fireBaseConnection } = require('./utils/fbConnect');
+
 const app = express();
-app.options('*', cors());
-// Route imports
-const authRoute = require("./routes/auth");
-const clinicAdminRoutes = require('./routes/clinicAdminRoutes');
-const symptomRoutes = require('./routes/symptomRoutes');
-const clinicRoute = require("./routes/clinicRoutes");
-const mapsRoute = require("./routes/mapsRoutes");
 
 dotenv.config();
 fireBaseConnection();
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("Connected to the database"))
-  .catch((err) => console.log(err));
-
 // Define allowed origins
 const allowedOrigins = [
   'https://petvax-12a65.web.app',
-  'http://localhost:57443/',
-  'http://localhost:57443/#/add-clinic'
+  'http://localhost:57443',
 ];
 
-// CORS setup
+// CORS middleware setup (MOVE THIS TO TOP)
 app.use(cors({
   origin: function (origin, callback) {
-    // Check if the origin is in the allowed list or is undefined (undefined allows non-browser requests like Postman)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -42,6 +29,14 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+// Allow preflight OPTIONS requests
+app.options('*', cors());
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to the database"))
+  .catch((err) => console.log(err));
+
 // Compression setup
 app.use(compression({ level: 6, threshold: 0 }));
 
@@ -50,13 +45,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes setup
+const authRoute = require("./routes/auth");
+const clinicAdminRoutes = require('./routes/clinicAdminRoutes');
+const symptomRoutes = require('./routes/symptomRoutes');
+const clinicRoute = require("./routes/clinicRoutes");
+const mapsRoute = require("./routes/mapsRoutes");
+
 app.use("/", authRoute);
 app.use('/api/clinic-admin', clinicAdminRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use("/api/clinic", clinicRoute);
 app.use("/api/maps", mapsRoute);
 
-// After mongoose connection
+// Start reminder scheduler
 require('./services/reminderScheduler');
 console.log('Reminder scheduler started');
 
@@ -67,9 +68,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server setup
-const ip = "127.0.0.1";
 const port = process.env.PORT || 8000;
-
-app.listen(port, ip, () => {
-  console.log(`Product server listening on ${ip}:${port}`);
+app.listen(port, () => {
+  console.log(`Product server listening on port ${port}`);
 });
