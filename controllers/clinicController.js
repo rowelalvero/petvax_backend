@@ -310,6 +310,8 @@ exports.addClinicOwner = async (req, res, next) => {
       position: 'Clinic Owner'
     });
 
+    console.log('New user created:', newUser);
+
     // Remove password from output
     newUser.password = undefined;
 
