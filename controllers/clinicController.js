@@ -51,7 +51,7 @@ exports.createClinic = async (req, res, next) => {
 // 2. GET ALL CLINICS (Public)
 exports.getAllClinics = async (req, res, next) => {
   try {
-    const clinics = await Clinic.find({ isActive: true });
+    const clinics = await Clinic.find({});
 
     res.status(200).json({
       status: 'successss',
