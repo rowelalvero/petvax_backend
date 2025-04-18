@@ -40,7 +40,6 @@ const clinicSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Invalid email format']
   },
-
   operatingHours: {
     days: [{
       type: Number,
@@ -82,18 +81,6 @@ const clinicSchema = new mongoose.Schema({
     type: String,
     validate: [validator.isURL, 'Invalid logo URL format'],
     default: 'https://example.com/default-clinic-logo.png'
-  },
-  adminCredentials: {
-    username: {
-      type: String,
-      unique: true,
-    },
-    password: {
-      type: String,
-      select: false,
-    },
-    passwordResetToken: String,
-    passwordResetExpires: Date
   },
   isActive: {
     type: Boolean,

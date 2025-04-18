@@ -10,53 +10,31 @@ exports.createClinic = async (req, res, next) => {
     const {
       name,
       address,
-      location,
       contactNumber,
       email,
+      location,
       operatingHours,
       profileImage,
       isActive,
-      emergencySupport,
-      adminCredentials
+      emergencySupport
     } = req.body;
-    
-    const { longitude, latitude } = location.coordinates || {};
-    const { openingTime, closingTime } = operatingHours || {};
-    const { username, password } = adminCredentials || {};
-
-    if (!username || !password) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Admin username and password are required.'
-      });
-    }
-    
-    console.log("Clinic creation request body:", req.body);
-    console.log(location.coordinates[0], location.coordinates[1]);
-
-    // Hash the admin password
-    const hashedPassword = await bcrypt.hash(password, 12);
 
     const newClinic = await Clinic.create({
       name,
       address,
+      contactNumber,
+      email,
       location: {
         type: 'Point',
         coordinates: [location.coordinates[0], location.coordinates[1]]
       },
-      contactNumber,
-      email,
       operatingHours: {
-        openingTime,
-        closingTime
+        openingTime: operatingHours.openingTime,
+        closingTime: operatingHours.closingTime
       },
       isActive,
       emergencySupport,
-      profileImage,
-      adminCredentials: {
-        username: username,
-        password: hashedPassword
-      }
+      profileImage
     });
 
     res.status(201).json({
@@ -107,8 +85,6 @@ exports.getClinic = async (req, res, next) => {
   }
 };
 
-// controllers/clinicController.js
-// controllers/clinicController.js
 exports.searchClinics = async (req, res, next) => {
   try {
     const { 
@@ -185,7 +161,7 @@ exports.searchClinics = async (req, res, next) => {
     }
 
     const clinics = await Clinic.find(searchQuery)
-      .select('-adminCredentials -__v')
+      .select('-__v') // Removed '-adminCredentials' from here
       .limit(parseInt(limit))
       .populate({
         path: 'services.service',
@@ -303,6 +279,44 @@ exports.findClinicsForAssessment = async (req, res, next) => {
       status: 'success',
       data: {
         clinics
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// In your controllers/clinicController.js
+exports.addClinicOwner = async (req, res, next) => {
+  try {
+    const { clinicId } = req.params;
+    const { firstName, lastName, email, password, phoneNumber } = req.body;
+
+    // Validate clinic exists
+    const clinic = await Clinic.findById(clinicId);
+    if (!clinic) {
+      throw new AppError('Clinic not found', 404);
+    }
+
+    // Create user with clinic_owner role
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+      role: 'clinic_owner',
+      clinicId: clinic._id,
+      position: 'Clinic Owner'
+    });
+
+    // Remove password from output
+    newUser.password = undefined;
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        user: newUser
       }
     });
   } catch (err) {
