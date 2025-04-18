@@ -67,7 +67,7 @@ router.get('/:clinicId/owners',
       const owners = await User.find({ 
         clinicId: req.params.clinicId,
         role: 'clinic_owner'
-      }).select('-password -__v');
+      }).select('-__v');
 
       res.status(200).json({
         status: 'success',

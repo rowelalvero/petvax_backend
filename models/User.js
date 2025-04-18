@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
     minlength: [8, 'Password must be at least 8 characters'],
-    select: true // Never return password in queries
+    select: true
   },
   phoneNumber: {
     type: String,
