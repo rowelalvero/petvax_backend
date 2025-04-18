@@ -54,6 +54,7 @@ exports.getAllClinics = async (req, res, next) => {
     const clinics = await Clinic.find({ isActive: true })
       .populate({
         path: 'owners',
+        select: 'firstName lastName email phoneNumber',
         match: { role: 'clinic_owner' }
       });
 
@@ -76,6 +77,7 @@ exports.getClinic = async (req, res, next) => {
       .populate('services') // Populate services
       .populate({
         path: 'owners',
+        select: 'firstName lastName email phoneNumber',
         match: { role: 'clinic_owner' }
       }); // Populate owners
 
