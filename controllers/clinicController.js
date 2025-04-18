@@ -53,6 +53,7 @@ exports.getAllClinics = async (req, res, next) => {
   try {
     const clinics = await Clinic.find({ isActive: true });
 
+    console.log(clinics);
     res.status(200).json({
       status: 'success',
       results: clinics.length,
