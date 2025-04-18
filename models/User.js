@@ -150,4 +150,9 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
 
 const User = mongoose.model('User', userSchema);
 
+userSchema.index({ role: 1 });
+userSchema.index({ clinicId: 1 });
+userSchema.index({ joiningDate: -1 });
+userSchema.index({ clinicId: 1, role: 1 }); // Compound index
+
 module.exports = User;

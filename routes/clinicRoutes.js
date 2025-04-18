@@ -47,4 +47,6 @@ router.use('/:clinicId/reviews', reviewRouter);
 
 router.use('/:clinicId/staff', staffRouter);
 
+router.get('/search', clinicController.searchClinics);
+
 module.exports = router;

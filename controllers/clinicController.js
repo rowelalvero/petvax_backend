@@ -107,6 +107,104 @@ exports.getClinic = async (req, res, next) => {
   }
 };
 
+// controllers/clinicController.js
+// controllers/clinicController.js
+exports.searchClinics = async (req, res, next) => {
+  try {
+    const { 
+      query, 
+      location, 
+      specialty, 
+      emergency, 
+      minRating,
+      service,
+      openNow,
+      limit = 10 
+    } = req.query;
+    
+    // Base query for active clinics
+    const searchQuery = { isActive: true };
+
+    // Text search (if query provided)
+    if (query) {
+      searchQuery.$text = { $search: query };
+    }
+
+    // Location filter (nearby clinics)
+    if (location) {
+      const [latitude, longitude, radius = 5000] = location.split(',').map(Number);
+      
+      searchQuery.location = {
+        $near: {
+          $geometry: {
+            type: "Point",
+            coordinates: [longitude, latitude]
+          },
+          $maxDistance: radius // Default 5km radius
+        }
+      };
+    }
+
+    // Specialty filter
+    if (specialty) {
+      searchQuery.specialties = specialty;
+    }
+
+    // Emergency support filter
+    if (emergency === 'true') {
+      searchQuery.emergencySupport = true;
+    }
+
+    // Minimum rating filter
+    if (minRating) {
+      searchQuery.ratingAverage = { 
+        $gte: parseFloat(minRating) 
+      };
+    }
+
+    // Service availability filter
+    if (service) {
+      searchQuery['services.service'] = mongoose.Types.ObjectId(service);
+    }
+
+    // Open now filter
+    if (openNow === 'true') {
+      const now = new Date();
+      const currentDay = now.getDay(); // 0-6 (Sunday-Saturday)
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      const currentTime = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
+      
+      // For clinics with weekly schedule
+      if (req.query.ignoreWeeklySchedule !== 'true') {
+        searchQuery['operatingHours.days'] = currentDay;
+      }
+      
+      searchQuery['operatingHours.openingTime'] = { $lte: currentTime };
+      searchQuery['operatingHours.closingTime'] = { $gte: currentTime };
+    }
+
+    const clinics = await Clinic.find(searchQuery)
+      .select('-adminCredentials -__v')
+      .limit(parseInt(limit))
+      .populate({
+        path: 'services.service',
+        select: 'name description'
+      })
+      .lean();
+
+    res.status(200).json({
+      status: 'success',
+      results: clinics.length,
+      data: {
+        clinics
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 // 4. UPDATE CLINIC (Admin/Clinic Owner)
 exports.updateClinic = async (req, res, next) => {
   try {
