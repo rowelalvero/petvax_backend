@@ -110,29 +110,29 @@ const clinicSchema = new mongoose.Schema({
 // Geospatial index for location-based queries (critical for geotagging)
 clinicSchema.index({ location: '2dsphere' });
 
-// Add to your Clinic schema:
-clinicSchema.index({
-  name: 'text',
-  address: 'text',
-  'services.name': 'text',
-  'services.description': 'text'
-}, {
-  weights: {
-    name: 5,
-    address: 3,
-    'services.name': 2,
-    'services.description': 1
-  }
-});
+// // Add to your Clinic schema:
+// clinicSchema.index({
+//   name: 'text',
+//   address: 'text',
+//   'services.name': 'text',
+//   'services.description': 'text'
+// }, {
+//   weights: {
+//     name: 5,
+//     address: 3,
+//     'services.name': 2,
+//     'services.description': 1
+//   }
+// });
 
-// Add to your Clinic model:
-clinicSchema.index({ ratingAverage: -1 });
-clinicSchema.index({ 'services.service': 1 });
-clinicSchema.index({ 
-  'operatingHours.days': 1,
-  'operatingHours.openingTime': 1,
-  'operatingHours.closingTime': 1 
-});
+// // Add to your Clinic model:
+// clinicSchema.index({ ratingAverage: -1 });
+// clinicSchema.index({ 'services.service': 1 });
+// clinicSchema.index({ 
+//   'operatingHours.days': 1,
+//   'operatingHours.openingTime': 1,
+//   'operatingHours.closingTime': 1 
+// });
 
 const Clinic = mongoose.model('Clinic', clinicSchema);
 
