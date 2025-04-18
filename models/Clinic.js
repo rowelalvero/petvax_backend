@@ -100,7 +100,11 @@ const clinicSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  owners: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
 });
 
 // Geospatial index for location-based queries (critical for geotagging)
