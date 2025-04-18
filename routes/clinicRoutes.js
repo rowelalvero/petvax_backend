@@ -2,6 +2,8 @@
 const express = require('express');
 const clinicController = require('../controllers/clinicController');
 const authController = require('../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
+const staffRouter = require('./staffRoutes');
 const { validateClinicCreation } = require('../middlewares/validateClinic');
 
 const router = express.Router();
@@ -40,5 +42,9 @@ router.patch('/:id',
   authController.restrictTo('admin', 'clinic_owner'),
   clinicController.updateClinic
 );
+
+router.use('/:clinicId/reviews', reviewRouter);
+
+router.use('/:clinicId/staff', staffRouter);
 
 module.exports = router;

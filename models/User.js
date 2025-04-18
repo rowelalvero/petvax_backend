@@ -63,6 +63,39 @@ const userSchema = new mongoose.Schema({
     enum: ['active', 'suspended', 'deleted'],
     default: 'active'
   },
+  position: {
+    type: String,
+    required: function() {
+      return this.role !== 'pet_owner' && this.role !== 'admin';
+    }
+  },
+  specialties: {
+    type: [String],
+    required: function() {
+      return this.role === 'veterinarian';
+    }
+  },
+  isActiveStaff: {
+    type: Boolean,
+    default: true
+  },
+  joiningDate: {
+    type: Date,
+    default: Date.now
+  },
+  schedule: {
+    workDays: [{
+      type: Number, // 0-6 (Sunday-Saturday)
+      required: true
+    }],
+    startTime: String, // "09:00"
+    endTime: String   // "17:00"
+  },
+  profileImage: {
+    type: String,
+    validate: [validator.isURL, 'Invalid image URL format'],
+    default: 'https://example.com/default-profile-image.png'
+  },
   // Add to schema
   notificationPreferences: {
     appointmentReminders: {

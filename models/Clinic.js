@@ -94,6 +94,17 @@ const clinicSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  ratingAverage: {
+    type: Number,
+    default: 4.5,
+    min: [1, 'Rating must be above 1.0'],
+    max: [5, 'Rating must be below 5.0'],
+    set: val => Math.round(val * 10) / 10 // 4.666666 -> 4.7
+  },
+  ratingQuantity: {
+    type: Number,
+    default: 0
+  },
   createdAt: {
     type: Date,
     default: Date.now

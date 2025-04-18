@@ -48,7 +48,7 @@ exports.suspendUser = async (req, res, next) => {
 };
 
 // Log an admin action (reusable middleware)
-const logAdminAction = async (adminId, action, targetId, details = {}) => {
+const logAdminAction = async (req, adminId, action, targetId, details = {}) => {
   await AuditLog.create({
     admin: adminId,
     action,
