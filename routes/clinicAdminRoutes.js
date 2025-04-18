@@ -18,6 +18,4 @@ router.get('/me', (req, res) => {
   });
 });
 
-router.patch('/update-my-password', authController.updateClinicAdminPassword);
-
 module.exports = router;
