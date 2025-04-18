@@ -51,12 +51,7 @@ exports.createClinic = async (req, res, next) => {
 // 2. GET ALL CLINICS (Public)
 exports.getAllClinics = async (req, res, next) => {
   try {
-    const clinics = await Clinic.find({ isActive: true })
-      .populate({
-        path: 'owners',
-        select: 'firstName lastName email phoneNumber',
-        match: { role: 'clinic_owner' }
-      });
+    const clinics = await Clinic.find({ isActive: true });
 
     res.status(200).json({
       status: 'success',
@@ -73,13 +68,7 @@ exports.getAllClinics = async (req, res, next) => {
 // 3. GET SINGLE CLINIC (Public)
 exports.getClinic = async (req, res, next) => {
   try {
-    const clinic = await Clinic.findById(req.params.id)
-      .populate('services') // Populate services
-      .populate({
-        path: 'owners',
-        select: 'firstName lastName email phoneNumber',
-        match: { role: 'clinic_owner' }
-      }); // Populate owners
+    const clinic = await Clinic.findById(req.params.id).populate('services');
 
     if (!clinic || !clinic.isActive) {
       throw new AppError('Clinic not found or inactive', 404);
@@ -87,7 +76,9 @@ exports.getClinic = async (req, res, next) => {
 
     res.status(200).json({
       status: 'success',
-      data: { clinic }
+      data: {
+        clinic
+      }
     });
   } catch (err) {
     next(err);

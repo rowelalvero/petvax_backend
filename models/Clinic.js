@@ -40,6 +40,10 @@ const clinicSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Invalid email format']
   },
+  owners: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   operatingHours: {
     days: [{
       type: Number,
@@ -101,10 +105,6 @@ const clinicSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  owners: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
 });
 
 // Geospatial index for location-based queries (critical for geotagging)
