@@ -55,7 +55,7 @@ exports.getAllClinics = async (req, res, next) => {
     const clinics = await Clinic.find()
       .populate({
         path: 'owners',
-        select: 'firstName lastName email phoneNumber',
+        select: 'firstName lastName email phoneNumber clinicId joiningDate',
         match: { role: 'clinic_owner' }
       });
 
