@@ -65,15 +65,15 @@ const userSchema = new mongoose.Schema({
   },
   position: {
     type: String,
-    required: function() {
-      return this.role !== 'pet_owner' && this.role !== 'admin';
-    }
+    // required: function() {
+    //   return this.role !== 'pet_owner' && this.role !== 'admin';
+    // }
   },
   specialties: {
     type: [String],
-    required: function() {
-      return this.role === 'veterinarian';
-    }
+    // required: function() {
+    //   return this.role === 'veterinarian';
+    // }
   },
   isActiveStaff: {
     type: Boolean,

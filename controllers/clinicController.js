@@ -298,7 +298,6 @@ exports.findClinicsForAssessment = async (req, res, next) => {
   }
 };
 
-// In your controllers/clinicController.js
 exports.addClinicOwner = async (req, res, next) => {
   try {
     const { clinicId } = req.params;
