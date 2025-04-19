@@ -3,6 +3,7 @@ const Clinic = require('../models/Clinic');
 const User = require('../models/User');
 const AppError = require('../utils/appError');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 // 1. CREATE CLINIC (Admin only)
 exports.createClinic = async (req, res, next) => {
@@ -322,7 +323,8 @@ exports.addClinicOwner = async (req, res, next) => {
       await user.save();
     } else {
       // New user: Create with clinic owner role
-      const password = crypto.randomBytes(8).toString('hex'); // Temporary password
+      const password = crypto.randomBytes(8).toString('hex'); // Temporary password\
+      
       user = await User.create({
         email,
         password,
