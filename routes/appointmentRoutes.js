@@ -26,4 +26,10 @@ router.get(
   appointmentController.getClinicAppointments
 );
 
+router.delete(
+  '/:id',
+  authController.protect,
+  appointmentController.cancelAppointment
+);
+
 module.exports = router;

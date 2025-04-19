@@ -301,37 +301,51 @@ exports.findClinicsForAssessment = async (req, res, next) => {
 exports.addClinicOwner = async (req, res, next) => {
   try {
     const { clinicId } = req.params;
-    const { firstName, lastName, email, password, phoneNumber } = req.body;
+    const { email, firstName, lastName, phoneNumber, password } = req.body;
 
-    // Validate clinic exists
+    // 1. Check if clinic exists
     const clinic = await Clinic.findById(clinicId);
     if (!clinic) {
       throw new AppError('Clinic not found', 404);
     }
 
-    // Create user with clinic_owner role
-    const newUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      phoneNumber,
-      role: 'clinic_owner',
-      clinicId: clinic._id,
-      position: 'Clinic Owner'
-    });
+    // 2. Create or update the user
+    let user = await User.findOne({ email });
 
-    console.log('New user created:', newUser);
+    if (user) {
+      // Existing user: Update their role and clinic
+      if (user.clinicId && user.clinicId.toString() !== clinicId) {
+        throw new AppError('User already belongs to another clinic', 400);
+      }
+      user.role = 'clinic_owner';
+      user.clinicId = clinicId;
+      await user.save();
+    } else {
+      // New user: Create with clinic owner role
+      const password = crypto.randomBytes(8).toString('hex'); // Temporary password
+      user = await User.create({
+        email,
+        password,
+        firstName,
+        lastName,
+        phoneNumber,
+        role: 'clinic_owner',
+        clinicId,
+      });
+      // Send welcome email with password (implement sendWelcomeEmail)
+    }
 
-    // Remove password from output
-    newUser.password = undefined;
+    // 3. Add user to clinic's owners array (avoid duplicates)
+    if (!clinic.owners.includes(user._id)) {
+      clinic.owners.push(user._id);
+      await clinic.save();
+    }
 
     res.status(201).json({
       status: 'success',
-      data: {
-        user: newUser
-      }
+      data: { user, clinic }
     });
+
   } catch (err) {
     next(err);
   }
