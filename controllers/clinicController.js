@@ -130,7 +130,10 @@ exports.searchClinics = async (req, res, next) => {
     }
 
     if (minRating) {
-      searchQuery.ratingAverage = { $gte: parseFloat(minRating) };
+      const parsedRating = parseFloat(minRating);
+      if (!isNaN(parsedRating)) {
+        searchQuery.ratingAverage = { $gte: parsedRating };
+      }
     }
 
     if (service) {
