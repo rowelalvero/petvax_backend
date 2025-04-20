@@ -9,7 +9,7 @@ const { validateClinicCreation } = require('../middlewares/validateClinic');
 
 const router = express.Router();
 
-// Public routes
+router.get('/search', clinicController.searchClinics);
 router.get('/', clinicController.getAllClinics);
 router.get('/:id', clinicController.getClinic);
 router.get('/nearby', clinicController.getNearbyClinics);
@@ -48,11 +48,6 @@ router.use('/:clinicId/reviews', reviewRouter);
 
 router.use('/:clinicId/staff', staffRouter);
 
-router.get('/search', clinicController.searchClinics);
-
-router.get('/search/:query?', clinicController.searchClinics);
-
-// In your routes/clinicRoutes.js or similar
 router.post(
   '/:clinicId/add-owner',
   authController.protect,
