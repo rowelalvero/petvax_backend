@@ -134,7 +134,7 @@ exports.searchClinics = async (req, res, next) => {
     }
 
     if (service) {
-      searchQuery['services.service'] = mongoose.Types.ObjectId(service);
+      searchQuery['services.service'] = mongoose.Types.ObjectId(Service);
     }
 
     if (openNow === 'true') {
