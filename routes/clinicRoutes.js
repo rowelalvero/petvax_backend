@@ -50,6 +50,8 @@ router.use('/:clinicId/staff', staffRouter);
 
 router.get('/search', clinicController.searchClinics);
 
+router.get('/search/:query?', clinicController.searchClinics);
+
 // In your routes/clinicRoutes.js or similar
 router.post(
   '/:clinicId/add-owner',
