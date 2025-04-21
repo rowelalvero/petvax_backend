@@ -12,7 +12,7 @@ fireBaseConnection();
 
 // Define allowed origins
 const allowedOrigins = [
-  'https://petvax-12a65.web.app', // production
+  'https://petvax-a9e9b.web.app', // production
 ];
 
 const corsOptions = {
