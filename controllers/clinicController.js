@@ -323,8 +323,6 @@ exports.addClinicOwner = async (req, res, next) => {
       user.clinicId = clinicId;
       await user.save();
     } else {
-      // New user: Create with clinic owner role
-      password = await bcrypt.hash(this.password, 12); // Temporary password\
       
       user = await User.create({
         email,
