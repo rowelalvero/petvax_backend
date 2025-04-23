@@ -324,7 +324,7 @@ exports.addClinicOwner = async (req, res, next) => {
       await user.save();
     } else {
       // New user: Create with clinic owner role
-      const password = crypto.randomBytes(8).toString('hex'); // Temporary password\
+      password = await bcrypt.hash(this.password, 12); // Temporary password\
       
       user = await User.create({
         email,
